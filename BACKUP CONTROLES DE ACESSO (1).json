@@ -1,0 +1,1041 @@
+{
+  "name": "BACKUP CONTROLES DE ACESSO",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{$('FAZER LOOP SOBRE TODOS OS CON').item.json.url}}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -528,
+        384
+      ],
+      "id": "b3125e61-a9db-4671-bf77-2596ae714887",
+      "name": "LOGIN CONTROLE DE ACESSO RH",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "=http://{{$('FAZER LOOP SOBRE TODOS OS CON').item.json.IP}}/rep.html?pgCode=17&opType=5&lblId=0&visibleDiv=geral&lblNsrI=000000001&lblNsrF=000071820&lblDataI=07%2F05%2F25+20%3A08&lblDataF=08%2F10%2F25+18%3A00&lblMat=&fileinput=",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "biometrias"
+            }
+          },
+          "timeout": 300000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        208
+      ],
+      "id": "54a67e00-95f6-4663-ad9d-8e87b49e2c53",
+      "name": "BACKUP BIOMETRIAS",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "=http://{{$('FAZER LOOP SOBRE TODOS OS CON').item.json.IP}}/rep.html?pgCode=10&opType=5&lblId=0&visibleDiv=geral&lblNsrI=000000001&lblNsrF=000071820&lblDataI=07%2F05%2F25+20%3A08&lblDataF=08%2F10%2F25+18%3A00&lblMat=&fileinput=",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "cartoes"
+            }
+          },
+          "timeout": 300000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        768,
+        192
+      ],
+      "id": "fc5ecf97-ee05-4e09-ba36-56457ca75498",
+      "name": "BACKUP CARTÕES",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "=http://{{$('FAZER LOOP SOBRE TODOS OS CON').item.json.IP}}/rep.html?pgCode=9&opType=5&lblId=0&visibleDiv=geral&lblNsrI=000000001&lblNsrF=000071820&lblDataI=07%2F05%2F25+20%3A08&lblDataF=08%2F10%2F25+18%3A00&lblMat=&fileinput=",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "configuracoes"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        208
+      ],
+      "id": "13315a6e-5a9a-42a5-8a30-c3907cf74fe4",
+      "name": "BACKUP CONFIGURAÇÕES",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/configuracoes.txt",
+        "dataPropertyName": "configuracoes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        208
+      ],
+      "id": "dbe491f9-98df-43ca-b8c8-044c4b34656c",
+      "name": "SALVAR CONFIGURAÇÕES"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/biometrias.txt",
+        "dataPropertyName": "biometrias",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        544,
+        192
+      ],
+      "id": "f8d348ca-3274-497a-8a81-e9d6ae7246a6",
+      "name": "SALVAR BIOMETRIAS"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/cartoes.txt",
+        "dataPropertyName": "=cartoes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        176
+      ],
+      "id": "b002000f-a785-481b-ad29-6c99c35e8468",
+      "name": "SALVAR CARTÕES"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        512
+      ],
+      "id": "f1dcff1a-6b7f-4405-b04c-4739f4031b55",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY",
+          "mode": "list",
+          "cachedResultName": "Robô Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "IP": "={{ $json.IP }}",
+            "ERRO?": "={{ $json.error.status }} - {{ $json.error.code }}{{ $json.error.code }}",
+            "STATUS": "ERRO"
+          },
+          "matchingColumns": [
+            "IP"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "NAME",
+              "displayName": "NAME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "IP",
+              "displayName": "IP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "USER",
+              "displayName": "USER",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SESSION",
+              "displayName": "SESSION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PASSWORD",
+              "displayName": "PASSWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ERRO?",
+              "displayName": "ERRO?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1008,
+        416
+      ],
+      "id": "a913f7fd-542e-47aa-8247-fbc83751c03c",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CVIcs6dEo3ohH9V3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY",
+          "mode": "list",
+          "cachedResultName": "Robô Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "STATUS"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1776,
+        512
+      ],
+      "id": "07d40489-7057-4764-97d1-fa3529ca9b47",
+      "name": "LISTA CONTROLES QUE PRECISAM DE BACKUP",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CVIcs6dEo3ohH9V3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "64dc72ed-4023-4425-bf3e-e94b09ea229a",
+              "name": "url",
+              "value": "=http://{{ $json.IP }}/rep.html?pgCode=7&opType=1&lblId=0&lblLogin={{ $json.USER }}&lblPass={{ $json.PASSWORD }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1552,
+        512
+      ],
+      "id": "1c3a907a-dfeb-4113-9615-78b95696d6ad",
+      "name": "FORMATAR URL"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1104,
+        208
+      ],
+      "id": "3cecccdc-4dd1-436c-b536-cc1ea9a1e395",
+      "name": "FAZER LOOP SOBRE TODOS OS CON",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "=ERROS",
+        "include": "specifiedFields",
+        "fieldsToInclude": "IP",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        -16
+      ],
+      "id": "fcb5a3af-d459-4e75-8fbd-98c242fc7b65",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega o array de erros do input anterior\nconst erros = $input.first().json.ERROS || [];\n\n// Função simples para escapar caracteres HTML (segurança básica)\nfunction escapeHtml(str) {\n  if (!str && str !== 0) return '';\n  return String(str)\n    .replace(/&/g, '&amp;')\n    .replace(/</g, '&lt;')\n    .replace(/>/g, '&gt;')\n    .replace(/\"/g, '&quot;')\n    .replace(/'/g, '&#39;');\n}\n\n// Monta as linhas da tabela com cada IP\nconst ipRows = erros.map((item, idx) => {\n  const ip = escapeHtml(item.IP || '');\n  return `<tr>\n    <td style=\"padding:8px;border:1px solid #e1e1e1;text-align:center;width:48px\">${idx + 1}</td>\n    <td style=\"padding:8px;border:1px solid #e1e1e1\">${ip}</td>\n  </tr>`;\n}).join('');\n\n// HTML final — ideal para e-mail (Mailgun, Gmail, Outlook, etc.)\nconst html = `<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n  </head>\n  <body style=\"font-family: Arial, Helvetica, sans-serif; color: #222; margin:0; padding:16px; line-height:1.4;\">\n    <h2 style=\"margin:0 0 8px 0;\">IPs com erro (${erros.length})</h2>\n    <p style=\"margin:0 0 12px 0;\">Segue a relação dos IPs identificados:</p>\n\n    <table role=\"presentation\" style=\"border-collapse:collapse; width:100%; max-width:600px;\">\n      <thead>\n        <tr>\n          <th style=\"padding:8px;border:1px solid #e1e1e1;background:#f7f7f7;text-align:left;width:48px\">#</th>\n          <th style=\"padding:8px;border:1px solid #e1e1e1;background:#f7f7f7;text-align:left\">IP</th>\n        </tr>\n      </thead>\n      <tbody>\n        ${ ipRows || `<tr><td colspan=\"2\" style=\"padding:12px;border:1px solid #e1e1e1;text-align:center\">Nenhum IP com erro</td></tr>` }\n      </tbody>\n    </table>\n\n    <p style=\"margin:16px 0 0 0;font-size:13px;color:#555;\">Este é um e-mail gerado automaticamente.</p>\n  </body>\n</html>`;\n\n// Retorna no formato que o n8n espera\nreturn [\n  {\n    json: {\n      html, // corpo em HTML para o e-mail\n      count: erros.length,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "f28325ad-d631-4f3b-bb09-21856a1cf61a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY",
+          "mode": "list",
+          "cachedResultName": "Robô Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "IP": "={{ $('FORMATAR URL').item.json.IP }}",
+            "STATUS": "OK"
+          },
+          "matchingColumns": [
+            "IP"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "NAME",
+              "displayName": "NAME",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "IP",
+              "displayName": "IP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "USER",
+              "displayName": "USER",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "PASSWORD",
+              "displayName": "PASSWORD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1472,
+        560
+      ],
+      "id": "aa87bd30-9d9b-4001-a520-f9cb616894c8",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CVIcs6dEo3ohH9V3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "destinationKey": "configuracoes_txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2912,
+        560
+      ],
+      "id": "ef09a428-2a3e-47eb-958b-be4d00b3b840",
+      "name": "TXT CONFIGURACOES"
+    },
+    {
+      "parameters": {
+        "tableId": "CONTROLES_DE_ACESSO",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "NAME",
+              "fieldValue": "={{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.NAME }}"
+            },
+            {
+              "fieldId": "CONFIGURACOES",
+              "fieldValue": "={{ $json.configuracoes_txt }}"
+            },
+            {
+              "fieldId": "CARTOES",
+              "fieldValue": "={{ $('TXT CARTOES').item.json.cartoes_txt }}"
+            },
+            {
+              "fieldId": "IP",
+              "fieldValue": "={{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        736
+      ],
+      "id": "4dabf478-e325-475c-815d-830bfd4780e1",
+      "name": "Create a row",
+      "executeOnce": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "He2m4qxGtLUwnOBr",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/configuracoes.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2704,
+        560
+      ],
+      "id": "d6957f20-4322-41a4-9cee-4e2cb9178c44",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "destinationKey": "cartoes_txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        560
+      ],
+      "id": "25898783-476d-4f18-b7ae-5a267e32d086",
+      "name": "TXT CARTOES"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "destinationKey": "biometrias_txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2496,
+        560
+      ],
+      "id": "9f2d3939-e671-4639-9725-fe2331aed56a",
+      "name": "TXT BIOMETRIAS"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/biometrias.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        560
+      ],
+      "id": "9b239933-b90e-4a9e-975c-0bfe26f60793",
+      "name": "GET BIOMETRIAS"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=./backup/{{ $('FAZER LOOP SOBRE TODOS OS CON').item.json.IP }}/cartoes.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        560
+      ],
+      "id": "540fb89f-aa4d-42fa-849c-3dc629e9d13b",
+      "name": "GET CARTÕES"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY",
+          "mode": "list",
+          "cachedResultName": "Robô Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Controles de Acesso",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fIcpd9ck3ryaGonES1I8IfBJxeHnOkgCDckVfIJENmY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "STATUS",
+              "lookupValue": "ERRO"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -672,
+        -16
+      ],
+      "id": "7c5f36ab-dff7-4870-a711-9f7496b3bdbe",
+      "name": "BUSCAR CONTROLES QUE FALHARAM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CVIcs6dEo3ohH9V3",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "informatica9@hvidaesaude.org.br",
+        "subject": "RPA: Backups Controles de Acesso",
+        "message": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "bfa0bd44-718c-4650-92bc-a8138991f88e",
+      "name": "ENVIAR ALERTA",
+      "webhookId": "8b29e072-c52c-451b-8c52-1ffe8ca7e0f6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qMyp7PQikZbvYtxI",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=http://{{$json.IP}}/rep.html?pgCode=7&opType=2&lblId=0&visibleDiv=info&161855",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -896,
+        304
+      ],
+      "id": "fea8eea9-09ba-49fc-b7d6-8221a7bf01e2",
+      "name": "FAZER LOGOFF"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "LOGIN CONTROLE DE ACESSO RH": {
+      "main": [
+        [
+          {
+            "node": "BACKUP CONFIGURAÇÕES",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BACKUP CARTÕES": {
+      "main": [
+        [
+          {
+            "node": "SALVAR CARTÕES",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BACKUP BIOMETRIAS": {
+      "main": [
+        [
+          {
+            "node": "SALVAR BIOMETRIAS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BACKUP CONFIGURAÇÕES": {
+      "main": [
+        [
+          {
+            "node": "SALVAR CONFIGURAÇÕES",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALVAR CONFIGURAÇÕES": {
+      "main": [
+        [
+          {
+            "node": "BACKUP BIOMETRIAS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALVAR BIOMETRIAS": {
+      "main": [
+        [
+          {
+            "node": "BACKUP CARTÕES",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALVAR CARTÕES": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "LISTA CONTROLES QUE PRECISAM DE BACKUP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "FAZER LOOP SOBRE TODOS OS CON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LISTA CONTROLES QUE PRECISAM DE BACKUP": {
+      "main": [
+        [
+          {
+            "node": "FORMATAR URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FORMATAR URL": {
+      "main": [
+        [
+          {
+            "node": "FAZER LOOP SOBRE TODOS OS CON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FAZER LOOP SOBRE TODOS OS CON": {
+      "main": [
+        [
+          {
+            "node": "BUSCAR CONTROLES QUE FALHARAM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FAZER LOGOFF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "ENVIAR ALERTA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "GET CARTÕES",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TXT CONFIGURACOES": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "FAZER LOOP SOBRE TODOS OS CON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "TXT CONFIGURACOES",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TXT CARTOES": {
+      "main": [
+        [
+          {
+            "node": "GET BIOMETRIAS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TXT BIOMETRIAS": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET BIOMETRIAS": {
+      "main": [
+        [
+          {
+            "node": "TXT BIOMETRIAS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET CARTÕES": {
+      "main": [
+        [
+          {
+            "node": "TXT CARTOES",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BUSCAR CONTROLES QUE FALHARAM": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ENVIAR ALERTA": {
+      "main": [
+        []
+      ]
+    },
+    "FAZER LOGOFF": {
+      "main": [
+        [
+          {
+            "node": "LOGIN CONTROLE DE ACESSO RH",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f07a27e1-204b-431d-b82a-aa795db9eed3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ff75803e431c7d26ad75911a71d836d36255b3dd7ece9a4a13dcb9f968f9f87"
+  },
+  "id": "bP8udfXa1bKJQYIL",
+  "tags": []
+}
